@@ -8,5 +8,52 @@
 </head>
 <body>
     
+    <header class="header">
+        <h1 class="header__title">News App</h1>
+        <form class="search-form">
+            <select class="search-form__item search-form__dropdown">
+                <option value="">TechCrunch</option>
+                <option value="">MarketWatch</option>
+                <option value="">CoinDesk</option>
+                <option value="">CoinDesk</option>
+            </select>
+            <input type="text" class="search-form__item search-form__input" placeholder="Type search keywords here">
+            <button type="submit" class="search-form__item search-form__submit">Search</button>
+        </form>
+    </header>
+    <section class="news-feed">
+        <article class="news">
+            <div class="news-image-wrapper">
+                <img src="https://static.coindesk.com/wp-content/uploads/2020/11/1-month-skew-1200x628.png">
+            </div>
+            <div class="news-description">
+                <h2 class="news-description__title">Bitcoin’s Options Market Shows Strongest Bullish Mood on Record</h2>
+                <div class="news-description__subtitle">
+                    <span>Published by Omkar Godbole</span>
+                    <span>at 17:46 11/12/2020</span>
+                </div>
+                <p class="news-description__text">Long before mankind minted coins and then printed money, we were forced to
+                    find means of exchange once barter over larger distances was required. Mankind invented all sorts of
+                    "commodity money", from…</p>
+                <button class="news-description__more">More</button>
+            </div>
+        </article>
+        <article class="news">
+            <div class="news-image-wrapper">
+                <img src="https://static1.seekingalpha.com/uploads/2020/11/10/38119276-16050148814909623.png">
+            </div>
+            <div class="news-description">
+                <h2 class="news-description__title">Blockchain Bites: $16K BTC, $1B DAI, $13.6B TVL in DeFi</h2>
+                <div class="news-description__subtitle">
+                    <span>Published by Omkar Godbole</span>
+                    <span>at 17:46 11/12/2020</span>
+                </div>
+                <p class="news-description__text">MakerDAO’s DAI stablecoin is the latest crypto unicorn with a $1 billion
+                    market cap. DeFi’s total value locked hit a lifetime high. Hedge fund billionaire Ray Dalio said
+                    yesterday he isn’t keen on bi…</p>
+                <button class="news-description__more">More</button>
+            </div>
+        </article>
+    </section>
 </body>
 </html>
