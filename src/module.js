@@ -13,45 +13,77 @@ const SOURCE_SELECT_ELEMENT = document.getElementById('sources');
 const SEARCH_QUERY_ELEMENT = document.getElementById('search-query');
 const SEARCH_FORM = document.getElementById('search-form');
 const NEWS_FEED_CONTAINER = document.getElementById('news-feed');
+const NOTHING_TO_SHOW_CONTAINER = document.getElementById('nothing-to-show-section');
+const LOAD_MORE_CONTAINER = document.getElementById('load-more-section');
+const LOAD_MORE_BUTTON = document.getElementById('load-more-button');
 
 const DEFAULT_PAGE_SIZE = 5;
 const FIRST_PAGE = 1
 const EMPTY_SEARCH_QUERY = ''
 
+// initialize feed once the page loaded
+loadNews(getSelectedSource(), EMPTY_SEARCH_QUERY, FIRST_PAGE);
+
 /*
  * Global variables
 */
 var pageNo = 1;
-var source = getSelectedSource();
 
 /*
  * Register listeners
 */
 SEARCH_FORM.addEventListener("submit", (e) => {
     e.preventDefault();
-    const selectedSource = getSelectedSource();
-    const queryString = getSearchQuery();
+    resetPageNo();
+    displayLoadMoreButton();
     cleanNewsFeed();
-    fetchNews(selectedSource, queryString, FIRST_PAGE, DEFAULT_PAGE_SIZE);
+    loadNews(getSelectedSource(), getSearchQuery(), FIRST_PAGE);
 });
 
-// initialize feed once the page loaded
-fetchNews(source, EMPTY_SEARCH_QUERY, pageNo, DEFAULT_PAGE_SIZE);
+LOAD_MORE_BUTTON.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (pageNo < 8) {
+        pageNo++;
+        loadNews(getSelectedSource(), getSearchQuery(), pageNo);
+    }
+    if (pageNo == 8) {
+        hideLoadMoreButton();
+    }
+})
 
+SOURCE_SELECT_ELEMENT.addEventListener("change", (e) => {
+    e.preventDefault();
+    resetPageNo();
+    displayLoadMoreButton();
+    cleanNewsFeed();
+    loadNews(getSelectedSource(), EMPTY_SEARCH_QUERY, FIRST_PAGE);
+})
 
-function fetchNews(source, query, page, pageSize) {
+function loadNews(source, query, page, pageSize = DEFAULT_PAGE_SIZE) {
+    fetchNews(source, query, page, pageSize)
+        .then(response => {
+            const articles = response.articles;
+            const total = response.totalResults;
+            if (total == 0) {
+                displayNothingToShow();
+                hideLoadMoreButton();
+            } else if (total <= pageSize) {
+                hideLoadMoreButton();
+            }else {
+                addArticlesToFeed(articles);
+                displayLoadMoreButton();
+            }
+        });
+}
+
+async function fetchNews(source, query, page, pageSize) {
     let url = `${API_HOST}/everything?apiKey=${API_KEY}&sources=${source}&page=${page}&pageSize=${pageSize}`;
     if (query) {
         url += `&q=${query}`;
     }
-    fetch(url)
+    return await fetch(url)
         .then(response => response.json())
-        .then(json => {
-            let total = json.totalResults;
-            let articles = json.articles;
-            console.log(articles);
-            addArticlesToFeed(articles);
-        });
+        .then(json => json);
 }
 
 function getSelectedSource() {
@@ -68,6 +100,22 @@ function resetPageNo() {
 
 function cleanNewsFeed() {
     NEWS_FEED_CONTAINER.textContent = '';
+}
+
+function hideNothingToShow() {
+    NOTHING_TO_SHOW_CONTAINER.style.display = 'none';
+}
+
+function displayNothingToShow() {
+    NOTHING_TO_SHOW_CONTAINER.style.display = 'flex';
+}
+
+function hideLoadMoreButton() {
+    LOAD_MORE_CONTAINER.style.display = 'none';
+}
+
+function displayLoadMoreButton() {
+    LOAD_MORE_CONTAINER.style.display = 'flex';
 }
 
 function addArticlesToFeed(articles) {
