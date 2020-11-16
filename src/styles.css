@@ -137,7 +137,12 @@ body {
 }
 
 .news-description__text {
+    margin: 1em 0;
     color: #555555;
+}
+
+.news-description__text ul {
+    margin: 0;
 }
 
 .news-description__more {
