@@ -11,14 +11,20 @@
     <header class="header">
         <h1 class="header__title">News App</h1>
         <form class="search-form">
-            <select class="search-form__item search-form__dropdown">
-                <option value="">TechCrunch</option>
-                <option value="">MarketWatch</option>
-                <option value="">CoinDesk</option>
-                <option value="">CoinDesk</option>
+            <select class="search-form__item search-form__dropdown" id="sources">
+                <option value="techcrunch">TechCrunch</option>
+                <option value="marketwatch">MarketWatch</option>
+                <option value="bloomberg">Bloomberg</option>
+                <option value="the-wall-street-journal">The Wall Street Journal</option>
+                <option value="business-insider">Business Insider</option>
+                <option value="cnn">CNN</option>
+                <option value="fox-news">Fox News</option>
+                <option value="new-york-magazine">New York Magazine</option>
+                <option value="national-geographic">National Geographic</option>
+                <option value="mtv-news">MTV News</option>
             </select>
-            <input type="text" class="search-form__item search-form__input" placeholder="Type search keywords here">
-            <button type="submit" class="search-form__item search-form__submit">Search</button>
+            <input type="text" class="search-form__item search-form__input" id="search-query" placeholder="Type search keywords here">
+            <button type="submit" class="search-form__item search-form__submit" id="search-form-submit">Search</button>
         </form>
     </header>
     <section class="news-feed">
