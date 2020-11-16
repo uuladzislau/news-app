@@ -116,8 +116,8 @@ body {
 }
 
 .news-image-wrapper img {
-    object-fit: contain;
-    max-width: 100%;
+    object-fit: cover;
+    min-width: 100%;
 }
 
 .news-description {
