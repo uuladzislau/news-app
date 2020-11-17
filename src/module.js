@@ -20,6 +20,7 @@ const LOAD_MORE_BUTTON = document.getElementById('load-more-button');
 const DEFAULT_PAGE_SIZE = 5;
 const FIRST_PAGE = 1
 const EMPTY_SEARCH_QUERY = ''
+const MAX_AMOUNT_OF_ARTICLES = 40;
 
 // initialize feed once the page loaded
 loadNews(getSelectedSource(), EMPTY_SEARCH_QUERY, FIRST_PAGE);
@@ -28,6 +29,7 @@ loadNews(getSelectedSource(), EMPTY_SEARCH_QUERY, FIRST_PAGE);
  * Global variables
 */
 var pageNo = 1;
+var lastPageNo = 8;
 
 /*
  * Register listeners
@@ -46,7 +48,7 @@ LOAD_MORE_BUTTON.addEventListener("click", (e) => {
         pageNo++;
         loadNews(getSelectedSource(), getSearchQuery(), pageNo);
     }
-    if (pageNo == 8) {
+    if (pageNo == lastPageNo) {
         hideLoadMoreButton();
     }
 })
@@ -67,11 +69,19 @@ function loadNews(source, query, page, pageSize = DEFAULT_PAGE_SIZE) {
             if (total == 0) {
                 displayNothingToShow();
                 hideLoadMoreButton();
-            } else if (total <= pageSize) {
-                hideLoadMoreButton();
-            }else {
+            } else {
+                hideNothingToShow();
                 addArticlesToFeed(articles);
                 displayLoadMoreButton();
+            }
+
+            if (total >= MAX_AMOUNT_OF_ARTICLES) {
+                lastPageNo = MAX_AMOUNT_OF_ARTICLES;
+            } else {
+                lastPageNo = ~~(total / pageSize);
+            }
+            if (lastPageNo <= 1) {
+                hideLoadMoreButton();
             }
         });
 }
